@@ -1,1 +1,1 @@
-![FL Chart Logo](./repo_files/images/landing_logo.jpg)
+![FL Chart Logo](./repo_files/design1.png)
