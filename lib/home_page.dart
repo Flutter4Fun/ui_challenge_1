@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ui_challenge_1/widgets/seats_grid.dart';
 import 'dart:ui' as ui;
 
 import 'widgets/curved_line_widget.dart';
@@ -12,7 +13,7 @@ class HomePage extends StatelessWidget {
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 40),
-            child: CurvedLineWidget(),
+            child: SeatsGrid(),
           ),
         ),
       ),
