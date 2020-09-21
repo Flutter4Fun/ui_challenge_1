@@ -6,14 +6,21 @@ import 'package:flutter/material.dart';
 class CurvedLineWidget extends StatelessWidget {
   final double curveHeight, lineThickness, gradientHeight;
   final Color lineColor;
+  final List<Color> gradientColors;
 
   const CurvedLineWidget({
     Key key,
-    this.curveHeight = 20,
-    this.lineThickness = 8,
-    this.gradientHeight = 68,
-    this.lineColor = Colors.lightBlueAccent,
-  }) : super(key: key);
+    double curveHeight,
+    double lineThickness,
+    double gradientHeight,
+    Color lineColor,
+    List<Color> gradientColors,
+  })  : curveHeight = curveHeight ?? 20,
+        lineThickness = lineThickness ?? 8,
+        gradientHeight = gradientHeight ?? 68,
+        lineColor = lineColor ?? Colors.lightBlueAccent,
+        gradientColors = gradientColors ?? const [Color(0x6600B0FF), Color(0x0000B0FF)],
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +30,7 @@ class CurvedLineWidget extends StatelessWidget {
         lineThickness,
         gradientHeight,
         lineColor,
+        gradientColors,
       ),
       size: Size(double.infinity, gradientHeight),
     );
@@ -34,6 +42,7 @@ class _CurvedLineCustomPainter extends CustomPainter {
   final double lineThickness;
   final double gradientHeight;
   final Color lineColor;
+  final List<Color> gradientColors;
 
   Paint linePaint, glowAreaPaint;
 
@@ -42,6 +51,7 @@ class _CurvedLineCustomPainter extends CustomPainter {
     this.lineThickness,
     this.gradientHeight,
     this.lineColor,
+    this.gradientColors,
   ) {
     linePaint = Paint()
       ..color = lineColor
@@ -72,7 +82,7 @@ class _CurvedLineCustomPainter extends CustomPainter {
       ..shader = ui.Gradient.linear(
         Offset(size.width / 2, 0),
         Offset(size.width / 2, gradientHeight),
-        [Colors.blueAccent.withOpacity(0.4), Colors.blueAccent.withOpacity(0)],
+        gradientColors,
       );
 
     canvas.drawPath(glowAreaPath, glowAreaPaint);
