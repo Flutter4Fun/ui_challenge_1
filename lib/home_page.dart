@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:ui_challenge_1/widgets/curved_line_widget.dart';
 import 'package:ui_challenge_1/widgets/seats_grid.dart';
-import 'colors.dart';
+import 'values/colors.dart';
 import 'widgets/header_section.dart';
+import 'widgets/selected_seats.dart';
+import 'extensions.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<SeatModel> selectedSeats = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +63,47 @@ class HomePage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: SeatsGuideWidget(),
+              ),
+              SizedBox(
+                height: 32,
+              ),
+              Expanded(
+                child: selectedSeats.isNotEmpty ? SelectedSeatsWidget(items: selectedSeats) : Container(),
+              ),
+              if (selectedSeats.isNotEmpty)
+                ...[
+                  SizedBox(height: 4,),
+                  Text(
+                    'TOTAL: ${selectedSeats.totalPrice()} \$',
+                    style: TextStyle(
+                      color: accentColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 26,
+                    ),
+                  ),
+                ],
+              Container(
+                width: double.infinity,
+                height: 46,
+                margin: EdgeInsets.only(left: 42, right: 42, top: 16, bottom: 22),
+                child: RaisedButton(
+                  child: Text(
+                    "CONFIRM SEATS",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onPressed: selectedSeats.isNotEmpty ? () {
+                    setState(() {
+                      selectedSeats.clear();
+                    });
+                  } : null,
+                  shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                  color: accentColor,
+                  disabledColor: accentColor.withOpacity(0.1),
+                ),
               )
             ],
           ),

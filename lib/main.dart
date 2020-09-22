@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ui_challenge_1/colors.dart';
+import 'file:///D:/Dev/Flutter/Projects/UI-Challenge-1/lib/values/colors.dart';
 import 'package:ui_challenge_1/home_page.dart';
 
 void main() {

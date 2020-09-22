@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ui_challenge_1/colors.dart';
+import 'file:///D:/Dev/Flutter/Projects/UI-Challenge-1/lib/values/colors.dart';
+import 'package:ui_challenge_1/values/numbers.dart';
 
 enum SeatState {
   Available,
@@ -8,14 +9,46 @@ enum SeatState {
   None,
 }
 
-class SeatsGrid extends StatelessWidget {
-  final List<List<SeatState>> seats = getSampleSeats();
+class SeatModel {
+  final SeatState state;
+  final int row, column;
+  final int price;
+
+  SeatModel(
+    this.state,
+    this.row,
+    this.column,
+    this.price,
+  );
+
+}
+
+class SeatsGrid extends StatefulWidget {
+  final Function(List<SeatModel>) onSelectedSeatsChanged;
+
+  final List<List<SeatModel>> initialModels = getSampleSeats();
+
+  SeatsGrid({Key key, this.onSelectedSeatsChanged}) : super(key: key);
+
+  @override
+  _SeatsGridState createState() => _SeatsGridState();
+}
+
+class _SeatsGridState extends State<SeatsGrid> {
+  List<List<SeatModel>> showingSeats;
+  List<SeatModel> selectedSeats = [];
+
+  @override
+  void initState() {
+    showingSeats = widget.initialModels;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final rows = seats
-        .map((columnsSeatState) => Row(
-              children: makeColumns(columnsSeatState),
+    final rows = showingSeats
+        .map((columnsSeat) => Row(
+              children: makeColumns(columnsSeat),
               mainAxisSize: MainAxisSize.min,
             ))
         .toList();
@@ -26,20 +59,44 @@ class SeatsGrid extends StatelessWidget {
     );
   }
 
-  List<Widget> makeColumns(List<SeatState> seats) {
-    return seats.map((seatState) => SeatCell(seatState)).toList();
+  List<Widget> makeColumns(List<SeatModel> seats) {
+    return seats.map((seatModel) => GridSeatCell(model: seatModel, onGridSeatClicked: (model) {
+      if (model.state == SeatState.Available) {
+        onDeselect(model);
+      } else if (model.state == SeatState.Selected) {
+        onSelect(model);
+      }
+    },)).toList();
+  }
+
+  void onDeselect(SeatModel model) {
+    selectedSeats.remove(showingSeats[model.row][model.column]);
+    showingSeats[model.row][model.column] = SeatModel(SeatState.Selected, model.row, model.column, model.price);
+
+    if (widget.onSelectedSeatsChanged != null) {
+      widget.onSelectedSeatsChanged(selectedSeats);
+    }
+  }
+
+  void onSelect(SeatModel model) {
+    showingSeats[model.row][model.column] = SeatModel(SeatState.Available, model.row, model.column, model.price);
+    selectedSeats.add(showingSeats[model.row][model.column]);
+
+    if (widget.onSelectedSeatsChanged != null) {
+      widget.onSelectedSeatsChanged(selectedSeats);
+    }
   }
 }
 
-List<List<SeatState>> getSampleSeats() {
+List<List<SeatModel>> getSampleSeats() {
   const int none = 0, available = 1, reserved = 2, selected = 3;
-  return [
+  final states = [
     [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 0, 0],
     [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 0],
     [1, 1, 1, 2, 2, 1, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 1],
     [1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2],
     [1, 1, 1, 1, 2, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2],
-    [0, 1, 1, 2, 1, 1, 3, 3, 1, 2, 1, 1, 1, 1, 1, 1, 0],
+    [0, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 0],
     [0, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 0],
     [0, 1, 1, 2, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 0],
   ]
@@ -62,6 +119,17 @@ List<List<SeatState>> getSampleSeats() {
             return state;
           }).toList())
       .toList();
+
+  List<List<SeatModel>> gridSeats = List(states.length);
+
+  for (int row = 0; row < states.length; row++) {
+    gridSeats[row] = List(states[row].length);
+    for (int col = 0; col < states[row].length; col++) {
+      gridSeats[row][col] = SeatModel(states[row][col], row, col, 60);
+    }
+  }
+
+  return gridSeats;
 }
 
 class SeatsGuideWidget extends StatelessWidget {
@@ -84,7 +152,7 @@ class SeatsGuideWidget extends StatelessWidget {
           text,
           style: TextStyle(
             color: Colors.white,
-            fontSize: 12,
+            fontSize: appDefaultFontSizes,
           ),
         ),
         SizedBox(
@@ -92,6 +160,28 @@ class SeatsGuideWidget extends StatelessWidget {
         ),
         SeatCell(state),
       ],
+    );
+  }
+}
+
+class GridSeatCell extends StatelessWidget {
+  final Function(SeatModel) onGridSeatClicked;
+  final SeatModel model;
+
+  const GridSeatCell({
+    Key key,
+    @required this.model,
+    this.onGridSeatClicked,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        print('onTap');
+        onGridSeatClicked(model);
+      },
+      child: SeatCell(model.state),
     );
   }
 }
@@ -104,16 +194,18 @@ class SeatCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget cell;
     switch (state) {
       case SeatState.None:
-        return Container(
+        cell = Container(
           margin: EdgeInsets.all(margin),
           width: size,
           height: size,
           color: Colors.transparent,
         );
+        break;
       case SeatState.Available:
-        return Container(
+        cell = Container(
           margin: EdgeInsets.all(margin),
           width: size,
           height: size,
@@ -122,8 +214,9 @@ class SeatCell extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(radius)),
           ),
         );
+        break;
       case SeatState.Reserved:
-        return Container(
+        cell = Container(
           margin: EdgeInsets.all(margin),
           width: size,
           height: size,
@@ -132,8 +225,9 @@ class SeatCell extends StatelessWidget {
             color: primaryColor,
           ),
         );
+        break;
       case SeatState.Selected:
-        return Container(
+        cell = Container(
           margin: EdgeInsets.all(margin),
           width: size,
           height: size,
@@ -150,8 +244,13 @@ class SeatCell extends StatelessWidget {
             ),
           ),
         );
+        break;
       default:
         throw ArgumentError();
     }
+    return GestureDetector(
+      onTap: () {},
+      child: cell,
+    );
   }
 }
