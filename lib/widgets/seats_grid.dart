@@ -27,60 +27,7 @@ class SeatsGrid extends StatelessWidget {
   }
 
   List<Widget> makeColumns(List<SeatState> seats) {
-    return seats.map((seatState) => makeSeat(seatState)).toList();
-  }
-}
-
-Widget makeSeat(SeatState seat) {
-  double size = 12.5, margin = 4, radius = 2;
-  switch (seat) {
-    case SeatState.None:
-      return Container(
-        margin: EdgeInsets.all(margin),
-        width: size,
-        height: size,
-        color: Colors.transparent,
-      );
-    case SeatState.Available:
-      return Container(
-        margin: EdgeInsets.all(margin),
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          border: Border.all(color: primaryColor, width: 1.2),
-          borderRadius: BorderRadius.all(Radius.circular(radius)),
-        ),
-      );
-    case SeatState.Reserved:
-      return Container(
-        margin: EdgeInsets.all(margin),
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(radius)),
-          color: primaryColor,
-        ),
-      );
-    case SeatState.Selected:
-      return Container(
-        margin: EdgeInsets.all(margin),
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(radius)),
-          color: pink,
-        ),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(2.8),
-            child: Image.asset(
-              'assets/ic_check.png',
-            ),
-          ),
-        ),
-      );
-    default:
-      throw ArgumentError();
+    return seats.map((seatState) => SeatCell(seatState)).toList();
   }
 }
 
@@ -115,4 +62,90 @@ List<List<SeatState>> getSampleSeats() {
             return state;
           }).toList())
       .toList();
+}
+
+class SeatsGuideWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        makeHint('SELECTED', SeatState.Selected),
+        makeHint('RESERVED', SeatState.Reserved),
+        makeHint('AVAILABLE', SeatState.Available),
+      ],
+    );
+  }
+
+  Widget makeHint(String text, SeatState state) {
+    return Row(
+      children: [
+        Text(text, style: TextStyle(color: Colors.white),),
+        SizedBox(width: 8,),
+        SeatCell(state),
+      ],
+    );
+  }
+
+}
+
+class SeatCell extends StatelessWidget {
+  final double size = 12.5, margin = 4, radius = 2;
+  final SeatState state;
+
+  const SeatCell(this.state);
+
+  @override
+  Widget build(BuildContext context) {
+    switch (state) {
+      case SeatState.None:
+        return Container(
+          margin: EdgeInsets.all(margin),
+          width: size,
+          height: size,
+          color: Colors.transparent,
+        );
+      case SeatState.Available:
+        return Container(
+          margin: EdgeInsets.all(margin),
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            border: Border.all(color: primaryColor, width: 1.2),
+            borderRadius: BorderRadius.all(Radius.circular(radius)),
+          ),
+        );
+      case SeatState.Reserved:
+        return Container(
+          margin: EdgeInsets.all(margin),
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(radius)),
+            color: primaryColor,
+          ),
+        );
+      case SeatState.Selected:
+        return Container(
+          margin: EdgeInsets.all(margin),
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(radius)),
+            color: pink,
+          ),
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(2.8),
+              child: Image.asset(
+                'assets/ic_check.png',
+              ),
+            ),
+          ),
+        );
+      default:
+        throw ArgumentError();
+    }
+  }
+
 }

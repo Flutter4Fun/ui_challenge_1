@@ -49,8 +49,12 @@ class HomePage extends StatelessWidget {
                 color: Color(0xffA2A2A2).withOpacity(0.3),
               ),
               SizedBox(
-                height: 8,
+                height: 10,
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: SeatsGuideWidget(),
+              )
             ],
           ),
         ),
