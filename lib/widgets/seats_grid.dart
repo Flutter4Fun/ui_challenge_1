@@ -80,13 +80,20 @@ class SeatsGuideWidget extends StatelessWidget {
   Widget makeHint(String text, SeatState state) {
     return Row(
       children: [
-        Text(text, style: TextStyle(color: Colors.white),),
-        SizedBox(width: 8,),
+        Text(
+          text,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 12,
+          ),
+        ),
+        SizedBox(
+          width: 8,
+        ),
         SeatCell(state),
       ],
     );
   }
-
 }
 
 class SeatCell extends StatelessWidget {
@@ -147,5 +154,4 @@ class SeatCell extends StatelessWidget {
         throw ArgumentError();
     }
   }
-
 }
