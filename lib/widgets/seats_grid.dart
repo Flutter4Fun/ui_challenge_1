@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ui_challenge_1/colors.dart';
 
 enum SeatState {
   Available,
@@ -31,7 +32,7 @@ class SeatsGrid extends StatelessWidget {
 }
 
 Widget makeSeat(SeatState seat) {
-  double size = 12, margin = 4, radius = 2;
+  double size = 12.5, margin = 4, radius = 2;
   switch (seat) {
     case SeatState.None:
       return Container(
@@ -46,7 +47,7 @@ Widget makeSeat(SeatState seat) {
         width: size,
         height: size,
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.blue),
+          border: Border.all(color: primaryColor, width: 1.2),
           borderRadius: BorderRadius.all(Radius.circular(radius)),
         ),
       );
@@ -57,7 +58,7 @@ Widget makeSeat(SeatState seat) {
         height: size,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(radius)),
-          color: Colors.blue,
+          color: primaryColor,
         ),
       );
     case SeatState.Selected:
@@ -67,10 +68,19 @@ Widget makeSeat(SeatState seat) {
         height: size,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(radius)),
-          color: Colors.purple,
+          color: pink,
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(2.8),
+            child: Image.asset(
+              'assets/icons/ic_check.png',
+            ),
+          ),
         ),
       );
-    default: throw ArgumentError();
+    default:
+      throw ArgumentError();
   }
 }
 
@@ -85,13 +95,22 @@ List<List<SeatState>> getSampleSeats() {
     [0, 1, 1, 2, 1, 1, 3, 3, 1, 2, 1, 1, 1, 1, 1, 1, 0],
     [0, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 0],
     [0, 1, 1, 2, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 0],
-  ].map((row) => row.map((columnNumber) {
+  ]
+      .map((row) => row.map((columnNumber) {
             SeatState state;
             switch (columnNumber) {
-              case none: state = SeatState.None; break;
-              case available: state = SeatState.Available; break;
-              case reserved: state = SeatState.Reserved; break;
-              case selected: state = SeatState.Selected; break;
+              case none:
+                state = SeatState.None;
+                break;
+              case available:
+                state = SeatState.Available;
+                break;
+              case reserved:
+                state = SeatState.Reserved;
+                break;
+              case selected:
+                state = SeatState.Selected;
+                break;
             }
             return state;
           }).toList())
