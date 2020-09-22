@@ -74,7 +74,7 @@ Widget makeSeat(SeatState seat) {
           child: Padding(
             padding: const EdgeInsets.all(2.8),
             child: Image.asset(
-              'assets/icons/ic_check.png',
+              'assets/ic_check.png',
             ),
           ),
         ),
