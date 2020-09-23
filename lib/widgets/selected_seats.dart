@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ui_challenge_1/values/colors.dart';
 import 'package:ui_challenge_1/values/numbers.dart';
 
 import 'seats_grid.dart';
@@ -25,9 +26,12 @@ class SelectedSeatsWidget extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 16,),
+        SizedBox(
+          height: 16,
+        ),
         Expanded(
           child: ListView.separated(
+            physics: BouncingScrollPhysics(),
             separatorBuilder: (context, index) => Container(
               height: 1,
               color: Colors.transparent,
@@ -57,10 +61,22 @@ class SelectedSeatItemWidget extends StatelessWidget {
       child: Row(
         children: [
           SeatCell(SeatState.Selected),
-          SizedBox(width: 6,),
-          Text('ROW ${getRowSymbol(model.row)}, SEAT ${model.column}', style: TextStyle(color: Colors.white,),),
+          SizedBox(
+            width: 6,
+          ),
+          Text(
+            'ROW ${getRowSymbol(model.row)}, SEAT ${model.column}',
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
           Expanded(child: Container()),
-          Text('${model.price.toDouble().toStringAsFixed(2)} \$', style: TextStyle(color: Colors.white,),),
+          Text(
+            '${model.price.toDouble().toStringAsFixed(2)} \$',
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
         ],
       ),
     );

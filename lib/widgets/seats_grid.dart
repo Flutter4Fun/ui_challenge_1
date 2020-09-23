@@ -20,33 +20,30 @@ class SeatModel {
     this.column,
     this.price,
   );
-
 }
 
 class SeatsGrid extends StatefulWidget {
+
+  final List<List<SeatModel>> seatsList;
+
   final Function(List<SeatModel>) onSelectedSeatsChanged;
 
-  final List<List<SeatModel>> initialModels = getSampleSeats();
-
-  SeatsGrid({Key key, this.onSelectedSeatsChanged}) : super(key: key);
+  SeatsGrid({
+    Key key,
+    @required this.seatsList,
+    this.onSelectedSeatsChanged,
+  }) : super(key: key);
 
   @override
   _SeatsGridState createState() => _SeatsGridState();
 }
 
 class _SeatsGridState extends State<SeatsGrid> {
-  List<List<SeatModel>> showingSeats;
   List<SeatModel> selectedSeats = [];
 
   @override
-  void initState() {
-    showingSeats = widget.initialModels;
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final rows = showingSeats
+    final rows = widget.seatsList
         .map((columnsSeat) => Row(
               children: makeColumns(columnsSeat),
               mainAxisSize: MainAxisSize.min,
@@ -60,18 +57,24 @@ class _SeatsGridState extends State<SeatsGrid> {
   }
 
   List<Widget> makeColumns(List<SeatModel> seats) {
-    return seats.map((seatModel) => GridSeatCell(model: seatModel, onGridSeatClicked: (model) {
-      if (model.state == SeatState.Available) {
-        onDeselect(model);
-      } else if (model.state == SeatState.Selected) {
-        onSelect(model);
-      }
-    },)).toList();
+    return seats
+        .map((seatModel) => GridSeatCell(
+              model: seatModel,
+              onGridSeatClicked: (model) {
+                if (model.state == SeatState.Available) {
+                  onSelect(model);
+                } else if (model.state == SeatState.Selected) {
+                  onDeselect(model);
+                }
+              },
+            ))
+        .toList();
   }
 
   void onDeselect(SeatModel model) {
-    selectedSeats.remove(showingSeats[model.row][model.column]);
-    showingSeats[model.row][model.column] = SeatModel(SeatState.Selected, model.row, model.column, model.price);
+    selectedSeats.remove(widget.seatsList[model.row][model.column]);
+    widget.seatsList[model.row][model.column] =
+        SeatModel(SeatState.Available, model.row, model.column, model.price);
 
     if (widget.onSelectedSeatsChanged != null) {
       widget.onSelectedSeatsChanged(selectedSeats);
@@ -79,8 +82,9 @@ class _SeatsGridState extends State<SeatsGrid> {
   }
 
   void onSelect(SeatModel model) {
-    showingSeats[model.row][model.column] = SeatModel(SeatState.Available, model.row, model.column, model.price);
-    selectedSeats.add(showingSeats[model.row][model.column]);
+    widget.seatsList[model.row][model.column] =
+        SeatModel(SeatState.Selected, model.row, model.column, model.price);
+    selectedSeats.add(widget.seatsList[model.row][model.column]);
 
     if (widget.onSelectedSeatsChanged != null) {
       widget.onSelectedSeatsChanged(selectedSeats);
@@ -177,10 +181,11 @@ class GridSeatCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        print('onTap');
-        onGridSeatClicked(model);
-      },
+      onTap: onGridSeatClicked != null
+          ? () {
+              onGridSeatClicked(model);
+            }
+          : null,
       child: SeatCell(model.state),
     );
   }
@@ -194,10 +199,9 @@ class SeatCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget cell;
     switch (state) {
       case SeatState.None:
-        cell = Container(
+        return Container(
           margin: EdgeInsets.all(margin),
           width: size,
           height: size,
@@ -205,7 +209,7 @@ class SeatCell extends StatelessWidget {
         );
         break;
       case SeatState.Available:
-        cell = Container(
+        return Container(
           margin: EdgeInsets.all(margin),
           width: size,
           height: size,
@@ -216,7 +220,7 @@ class SeatCell extends StatelessWidget {
         );
         break;
       case SeatState.Reserved:
-        cell = Container(
+        return Container(
           margin: EdgeInsets.all(margin),
           width: size,
           height: size,
@@ -227,7 +231,7 @@ class SeatCell extends StatelessWidget {
         );
         break;
       case SeatState.Selected:
-        cell = Container(
+        return Container(
           margin: EdgeInsets.all(margin),
           width: size,
           height: size,
@@ -248,9 +252,5 @@ class SeatCell extends StatelessWidget {
       default:
         throw ArgumentError();
     }
-    return GestureDetector(
-      onTap: () {},
-      child: cell,
-    );
   }
 }

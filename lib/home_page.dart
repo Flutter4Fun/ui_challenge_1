@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ui_challenge_1/widgets/curved_line_widget.dart';
 import 'package:ui_challenge_1/widgets/seats_grid.dart';
 import 'values/colors.dart';
@@ -13,6 +14,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<SeatModel> selectedSeats = [];
+  List<List<SeatModel>> seatsList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    seatsList = getSampleSeats();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +54,14 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 14,
               ),
-              SeatsGrid(),
+              SeatsGrid(
+                seatsList: seatsList,
+                onSelectedSeatsChanged: (newSelectedSeats) {
+                  setState(() {
+                    selectedSeats = newSelectedSeats;
+                  });
+                },
+              ),
               SizedBox(
                 height: 8,
               ),
@@ -75,10 +90,12 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(height: 4,),
                   Text(
                     'TOTAL: ${selectedSeats.totalPrice()} \$',
-                    style: TextStyle(
-                      color: accentColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 26,
+                    style: GoogleFonts.roboto(
+                      textStyle: TextStyle(
+                        color: accentColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 26,
+                      )
                     ),
                   ),
                 ],
@@ -98,6 +115,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: selectedSeats.isNotEmpty ? () {
                     setState(() {
                       selectedSeats.clear();
+                      seatsList = getSampleSeats();
                     });
                   } : null,
                   shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
