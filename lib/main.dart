@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'file:///D:/Dev/Flutter/Projects/UI-Challenge-1/lib/values/colors.dart';
 import 'package:ui_challenge_1/home_page.dart';
+
+import 'values/colors.dart';
 
 void main() {
   runApp(MyApp());
