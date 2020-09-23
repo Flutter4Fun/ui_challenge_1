@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ui_challenge_1/widgets/curved_line_widget.dart';
 import 'package:ui_challenge_1/widgets/seats_grid.dart';
+import 'package:ui_challenge_1/widgets/total_price.dart';
 import 'values/colors.dart';
 import 'widgets/header_section.dart';
 import 'widgets/selected_seats.dart';
@@ -88,16 +89,7 @@ class _HomePageState extends State<HomePage> {
               if (selectedSeats.isNotEmpty)
                 ...[
                   SizedBox(height: 4,),
-                  Text(
-                    'TOTAL: ${selectedSeats.totalPrice()} \$',
-                    style: GoogleFonts.roboto(
-                      textStyle: TextStyle(
-                        color: accentColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 26,
-                      )
-                    ),
-                  ),
+                  TotalPrice(price: selectedSeats.totalPrice()),
                 ],
               Container(
                 width: double.infinity,
