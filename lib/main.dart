@@ -13,17 +13,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primaryColor: primaryColor,
-        accentColor: accentColor,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        textTheme: GoogleFonts.josefinSansTextTheme(
-          Theme.of(context).textTheme,
+    return AnnotatedRegion(
+      value: SystemUiOverlayStyle.light,
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: primaryColor,
+          accentColor: accentColor,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          textTheme: GoogleFonts.josefinSansTextTheme(
+            Theme.of(context).textTheme,
+          ),
         ),
+        home: HomePage(),
       ),
-      home: HomePage(),
     );
   }
 
