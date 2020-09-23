@@ -8,7 +8,7 @@ class TotalPrice extends ImplicitlyAnimatedWidget {
   const TotalPrice({Key key, @required this.price})
       : super(
           key: key,
-          duration: const Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 200),
         );
 
   @override

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ui_challenge_1/widgets/curved_line_widget.dart';
-import 'package:ui_challenge_1/widgets/seats_grid.dart';
 import 'package:ui_challenge_1/widgets/total_price.dart';
 import 'values/colors.dart';
 import 'widgets/header_section.dart';
-import 'widgets/selected_seats.dart';
+import 'widgets/seats/seat_models.dart';
+import 'widgets/seats/seats_grid.dart';
+import 'widgets/seats/seats_guide.dart';
+import 'widgets/seats/selected_seats.dart';
 import 'extensions.dart';
 
 class HomePage extends StatefulWidget {
@@ -121,4 +122,48 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+List<List<SeatModel>> getSampleSeats() {
+  const int none = 0, available = 1, reserved = 2, selected = 3;
+  final states = [
+    [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 0, 0],
+    [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 0],
+    [1, 1, 1, 2, 2, 1, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 1],
+    [1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2],
+    [1, 1, 1, 1, 2, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2],
+    [0, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 0],
+    [0, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 0],
+    [0, 1, 1, 2, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 0],
+  ]
+      .map((row) => row.map((columnNumber) {
+    SeatState state;
+    switch (columnNumber) {
+      case none:
+        state = SeatState.None;
+        break;
+      case available:
+        state = SeatState.Available;
+        break;
+      case reserved:
+        state = SeatState.Reserved;
+        break;
+      case selected:
+        state = SeatState.Selected;
+        break;
+    }
+    return state;
+  }).toList())
+      .toList();
+
+  List<List<SeatModel>> gridSeats = List(states.length);
+
+  for (int row = 0; row < states.length; row++) {
+    gridSeats[row] = List(states[row].length);
+    for (int col = 0; col < states[row].length; col++) {
+      gridSeats[row][col] = SeatModel(states[row][col], row, col, 60);
+    }
+  }
+
+  return gridSeats;
 }
