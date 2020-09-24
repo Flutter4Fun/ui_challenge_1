@@ -54,7 +54,7 @@ class _CurvedLineAnimatedWidgetState extends State<AnimatedCurveLine>
     });
   }
 
-  Duration getRandomDuration({int millsFrom = 200, int millsTo = 600}) {
+  Duration getRandomDuration({int millsFrom = 300, int millsTo = 500}) {
     final randomMills = Random().nextInt(millsTo - millsFrom) + millsFrom;
     return Duration(milliseconds: randomMills);
   }
