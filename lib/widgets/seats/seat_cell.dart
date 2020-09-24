@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ui_challenge_1/bloc/seats_bloc.dart';
 import 'package:ui_challenge_1/values/colors.dart';
-
-import 'seat_models.dart';
 
 class GridSeatCell extends StatelessWidget {
   final Function(SeatModel) onGridSeatClicked;
