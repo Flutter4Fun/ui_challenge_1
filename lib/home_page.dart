@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ui_challenge_1/widgets/curved_line_widget.dart';
+import 'package:ui_challenge_1/widgets/curved_line/curved_line_animated.dart';
+import 'package:ui_challenge_1/widgets/curved_line/curved_line_widget.dart';
 import 'package:ui_challenge_1/widgets/total_price.dart';
 import 'values/colors.dart';
 import 'widgets/header_section.dart';
@@ -46,11 +47,13 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10.0,
                 ),
-                child: CurvedLineWidget(
-                  lineThickness: 6,
-                  lineColor: sceneColor1,
-                  gradientHeight: 42,
-                  gradientColors: [sceneColor1.withOpacity(0.35), sceneColor1.withOpacity(0)],
+                child: AnimatedCurveLine(
+                  colorsToAnimate: [
+                    sceneColor1,
+                    sceneColor2,
+                    sceneColor3,
+                    sceneColor4
+                  ],
                 ),
               ),
               SizedBox(
