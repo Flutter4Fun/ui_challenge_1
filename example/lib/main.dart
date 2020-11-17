@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ui_challenge_1/ui_challenge_1.dart';
 
-import 'values/colors.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,14 +16,6 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primaryColor: primaryColor,
-          accentColor: accentColor,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          textTheme: GoogleFonts.josefinSansTextTheme(
-            Theme.of(context).textTheme,
-          ),
-        ),
         home: UiChallenge1(),
       ),
     );

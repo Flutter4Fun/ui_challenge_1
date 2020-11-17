@@ -21,6 +21,7 @@ class HeaderSection extends StatelessWidget {
             'assets/joker.png',
             width: imageSize,
             height: imageSize,
+            package: 'ui_challenge_1',
           ),
         ),
         Expanded(
@@ -39,11 +40,11 @@ class HeaderSection extends StatelessWidget {
                 SizedBox(height: 8,),
                 Row(
                   children: [
-                    Image.asset('assets/ic_calendar.png', width: iconsSize, height: iconsSize,),
+                    Image.asset('assets/ic_calendar.png', width: iconsSize, height: iconsSize, package: 'ui_challenge_1',),
                     SizedBox(width: 8,),
                     Text('DECEMBER 04, 2020', style: TextStyle(color: Color(0xffA2A2A2), fontSize: appDefaultFontSizes),),
                     SizedBox(width: 16,),
-                    Image.asset('assets/ic_time.png', width: iconsSize, height: iconsSize,),
+                    Image.asset('assets/ic_time.png', width: iconsSize, height: iconsSize, package: 'ui_challenge_1',),
                     SizedBox(width: 8,),
                     Text('20:30', style: TextStyle(color: Color(0xffA2A2A2), fontSize: appDefaultFontSizes,),),
                   ],

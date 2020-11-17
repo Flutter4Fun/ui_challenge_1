@@ -111,6 +111,8 @@ class SelectedImage extends StatelessWidget {
           padding: const EdgeInsets.all(2.8),
           child: Image.asset(
             'assets/ic_check.png',
+            package: 'ui_challenge_1',
+
           ),
         ),
       ),

@@ -1,4 +1,4 @@
-package com.flutter4fun.ui_challenge_1
+package com.example.example
 
 import io.flutter.embedding.android.FlutterActivity
 
