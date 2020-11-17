@@ -11,12 +11,12 @@ import 'widgets/seats/selected_seats.dart';
 import 'bloc/seats_bloc.dart';
 import 'extensions.dart';
 
-class HomePage extends StatefulWidget {
+class UiChallenge1 extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _UiChallenge1State createState() => _UiChallenge1State();
 }
 
-class _HomePageState extends State<HomePage> {
+class _UiChallenge1State extends State<UiChallenge1> {
 
   @override
   Widget build(BuildContext context) {

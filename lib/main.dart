@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ui_challenge_1/home_page.dart';
+import 'package:ui_challenge_1/ui_challenge_1.dart';
 
 import 'values/colors.dart';
 
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
             Theme.of(context).textTheme,
           ),
         ),
-        home: HomePage(),
+        home: UiChallenge1(),
       ),
     );
   }
