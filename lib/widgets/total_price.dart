@@ -5,7 +5,7 @@ import 'package:ui_challenge_1/values/colors.dart';
 class TotalPrice extends ImplicitlyAnimatedWidget {
   final int price;
 
-  const TotalPrice({Key key, @required this.price})
+  const TotalPrice({Key? key, required this.price})
       : super(
           key: key,
           duration: const Duration(milliseconds: 300),
@@ -16,12 +16,12 @@ class TotalPrice extends ImplicitlyAnimatedWidget {
 }
 
 class _TotalPriceState extends AnimatedWidgetBaseState<TotalPrice> {
-  IntTween _tween;
+  IntTween? _tween;
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      'TOTAL: ${_tween.evaluate(animation)} \$',
+      'TOTAL: ${_tween?.evaluate(animation)} \$',
       style: GoogleFonts.roboto(
         textStyle: TextStyle(
           color: accentColor,
@@ -33,13 +33,11 @@ class _TotalPriceState extends AnimatedWidgetBaseState<TotalPrice> {
   }
 
   @override
-  void forEachTween(visitor) {
-    _tween = visitor(
-      _tween,
-      widget.price,
-      (dynamic value) => IntTween(
-        begin: value,
-      ),
-    );
+  void forEachTween(TweenVisitor<dynamic> visitor) {
+      _tween = visitor(
+        _tween,
+        widget.price,
+            (dynamic value) => IntTween(begin: value),
+      ) as IntTween;
   }
 }

@@ -3,12 +3,12 @@ import 'package:ui_challenge_1/bloc/seats_bloc.dart';
 import 'package:ui_challenge_1/values/colors.dart';
 
 class GridSeatCell extends StatelessWidget {
-  final Function(SeatModel) onGridSeatClicked;
+  final Function(SeatModel)? onGridSeatClicked;
   final SeatModel model;
 
   const GridSeatCell({
-    Key key,
-    @required this.model,
+    Key? key,
+    required this.model,
     this.onGridSeatClicked,
   }) : super(key: key);
 
@@ -16,7 +16,7 @@ class GridSeatCell extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: onGridSeatClicked != null ? () { onGridSeatClicked(model); } : null,
+      onTap: onGridSeatClicked != null ? () { onGridSeatClicked!(model); } : null,
       child: SeatCell(model.state),
     );
   }
@@ -37,7 +37,6 @@ class SeatCell extends StatelessWidget {
           width: size,
           height: size,
         );
-        break;
       case SeatState.Reserved:
         return Container(
           margin: EdgeInsets.all(margin),
@@ -48,13 +47,11 @@ class SeatCell extends StatelessWidget {
             color: primaryColor,
           ),
         );
-        break;
       case SeatState.Available:
       case SeatState.Selected:
         return AvailableSeatCell(
           selected: state == SeatState.Selected,
         );
-        break;
       default:
         throw ArgumentError();
     }
@@ -64,7 +61,7 @@ class SeatCell extends StatelessWidget {
 class AvailableSeatCell extends ImplicitlyAnimatedWidget {
   final bool selected;
 
-  const AvailableSeatCell({Key key, @required this.selected})
+  const AvailableSeatCell({Key? key, required this.selected})
       : super(key: key, duration: const Duration(milliseconds: 150), curve: Curves.linear);
 
   @override
@@ -72,7 +69,7 @@ class AvailableSeatCell extends ImplicitlyAnimatedWidget {
 }
 
 class _AvailableSeatCellState extends AnimatedWidgetBaseState<AvailableSeatCell> {
-  Tween<double> _scaleTween;
+  Tween<double>? _scaleTween;
 
   @override
   Widget build(BuildContext context) {
@@ -85,16 +82,19 @@ class _AvailableSeatCellState extends AnimatedWidgetBaseState<AvailableSeatCell>
         borderRadius: BorderRadius.all(Radius.circular(SeatCell.radius)),
       ),
       child: Transform.scale(
-        scale: _scaleTween.evaluate(animation),
+        scale: _scaleTween?.evaluate(animation) ?? 1.0,
         child: SelectedImage(),
       ),
     );
   }
 
   @override
-  void forEachTween(visitor) {
-    _scaleTween = visitor(_scaleTween, widget.selected ? 1.0 : 0.0,
-            (dynamic value) => Tween<double>(begin: widget.selected ? 1.0 : 0.0));
+  void forEachTween(TweenVisitor<dynamic> visitor) {
+    _scaleTween = visitor(
+      _scaleTween,
+      widget.selected ? 1.0 : 0.0,
+          (dynamic value) => Tween<double>(begin: widget.selected ? 1.0 : 0.0),
+    ) as Tween<double>;
   }
 }
 
@@ -110,9 +110,7 @@ class SelectedImage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(2.8),
           child: Image.asset(
-            'assets/ic_check.png',
-            package: 'ui_challenge_1',
-
+            'assets/images/ic_check.png',
           ),
         ),
       ),

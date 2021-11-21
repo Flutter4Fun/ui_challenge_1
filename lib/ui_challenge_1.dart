@@ -32,7 +32,6 @@ class _UiChallenge1State extends State<UiChallenge1> {
           Theme.of(context).textTheme,
         ),
       ),
-      isMaterialAppTheme: true,
       child: BlocProvider<SeatsBloc>(
         blocBuilder: () => SeatsBloc(),
         child: Builder(

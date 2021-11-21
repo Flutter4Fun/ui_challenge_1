@@ -14,11 +14,17 @@ class SelectedSeatsWidget extends StatefulWidget {
 class _SelectedSeatsWidgetState extends State<SelectedSeatsWidget> {
 
   GlobalKey<AnimatedListState> _myListKey = new GlobalKey<AnimatedListState>();
-  ScrollController _scrollController;
+  late ScrollController _scrollController;
 
   @override
   void initState() {
+    super.initState();
     _scrollController = new ScrollController();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     final seatsBloc = BlocProvider.of<SeatsBloc>(context);
     seatsBloc.onItemsCleared().listen((List<MapEntry<SeatModel, int>> removedItems) {
       setState(() {
@@ -27,15 +33,14 @@ class _SelectedSeatsWidgetState extends State<SelectedSeatsWidget> {
     });
     seatsBloc.onItemAdded().listen((MapEntry<SeatModel, int> insertedModelIndex) {
       final index = insertedModelIndex.value;
-      _myListKey.currentState.insertItem(index);
+      _myListKey.currentState!.insertItem(index);
       Future.delayed(Duration(milliseconds: 50)).then((value) => _scrollToEnd());
     });
     seatsBloc.onItemRemoved().listen((MapEntry<SeatModel, int> removedModelIndex) {
       final model = removedModelIndex.key;
       final index = removedModelIndex.value;
-      _myListKey.currentState.removeItem(index, (context, animation) => removeAnimated(context, animation, model));
+      _myListKey.currentState!.removeItem(index, (context, animation) => removeAnimated(context, animation, model));
     });
-    super.initState();
   }
 
   void _scrollToEnd() {
@@ -117,7 +122,7 @@ class _SelectedSeatsWidgetState extends State<SelectedSeatsWidget> {
 class SelectedSeatItemWidget extends StatelessWidget {
   final SeatModel model;
 
-  const SelectedSeatItemWidget({Key key, @required this.model}) : super(key: key);
+  const SelectedSeatItemWidget({Key? key, required this.model}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

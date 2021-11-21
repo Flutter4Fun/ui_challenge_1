@@ -1,18 +1,17 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:equatable/equatable.dart';
 
 import 'bloc.dart';
 
 class SeatsBloc extends BlocBase {
-  StreamController<MapEntry<SeatModel, int>> _onItemAdded;
-  StreamController<MapEntry<SeatModel, int>> _onItemRemoved;
-  StreamController<List<MapEntry<SeatModel, int>>> _onItemsCleared;
-  StreamController<List<SeatModel>> _onAnythingChanged;
+  late StreamController<MapEntry<SeatModel, int>> _onItemAdded;
+  late StreamController<MapEntry<SeatModel, int>> _onItemRemoved;
+  late StreamController<List<MapEntry<SeatModel, int>>> _onItemsCleared;
+  late StreamController<List<SeatModel>> _onAnythingChanged;
 
   List<SeatModel> _selectedSeats = [];
-  List<List<SeatModel>> _allSeats;
+  late List<List<SeatModel>> _allSeats;
 
   SeatsBloc() {
     _onItemAdded = StreamController.broadcast();
@@ -100,21 +99,17 @@ class SeatsBloc extends BlocBase {
                 case selected:
                   state = SeatState.Selected;
                   break;
+                default: throw StateError('invalid state');
               }
               return state;
             }).toList())
         .toList();
 
-    List<List<SeatModel>> gridSeats = List(states.length);
-
-    for (int row = 0; row < states.length; row++) {
-      gridSeats[row] = List(states[row].length);
-      for (int col = 0; col < states[row].length; col++) {
-        gridSeats[row][col] = SeatModel(states[row][col], row, col, 60);
-      }
-    }
-
-    return gridSeats;
+    return List.generate(states.length, (row) {
+       return List.generate(states[row].length, (col) {
+         return SeatModel(states[row][col], row, col, 60);
+       });
+    });
   }
 
   @override
@@ -146,10 +141,10 @@ class SeatModel extends Equatable {
   );
 
   SeatModel copyWith({
-    SeatState state,
-    int row,
-    int column,
-    int price,
+    SeatState? state,
+    int? row,
+    int? column,
+    int? price,
   }) {
     return SeatModel(
       state ?? this.state,

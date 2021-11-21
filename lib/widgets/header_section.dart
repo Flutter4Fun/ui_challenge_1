@@ -10,6 +10,8 @@ class HeaderSection extends StatelessWidget {
     return Row(
       children: [
         Container(
+          width: imageSize,
+          height: imageSize,
           decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
             BoxShadow(
               color: Color(0xFF00C4FF).withOpacity(0.7),
@@ -18,10 +20,9 @@ class HeaderSection extends StatelessWidget {
             ),
           ]),
           child: Image.asset(
-            'assets/joker.png',
+            'assets/images/joker.png',
             width: imageSize,
             height: imageSize,
-            package: 'ui_challenge_1',
           ),
         ),
         Expanded(
@@ -40,11 +41,11 @@ class HeaderSection extends StatelessWidget {
                 SizedBox(height: 8,),
                 Row(
                   children: [
-                    Image.asset('assets/ic_calendar.png', width: iconsSize, height: iconsSize, package: 'ui_challenge_1',),
+                    Image.asset('assets/images/ic_calendar.png', width: iconsSize, height: iconsSize),
                     SizedBox(width: 8,),
                     Text('DECEMBER 04, 2020', style: TextStyle(color: Color(0xffA2A2A2), fontSize: appDefaultFontSizes),),
                     SizedBox(width: 16,),
-                    Image.asset('assets/ic_time.png', width: iconsSize, height: iconsSize, package: 'ui_challenge_1',),
+                    Image.asset('assets/images/ic_time.png', width: iconsSize, height: iconsSize),
                     SizedBox(width: 8,),
                     Text('20:30', style: TextStyle(color: Color(0xffA2A2A2), fontSize: appDefaultFontSizes,),),
                   ],

@@ -9,12 +9,12 @@ class CurvedLineWidget extends StatelessWidget {
   final List<Color> gradientColors;
 
   const CurvedLineWidget({
-    Key key,
-    double curveHeight,
-    double lineThickness,
-    double gradientHeight,
-    Color lineColor,
-    List<Color> gradientColors,
+    Key? key,
+    double? curveHeight,
+    double? lineThickness,
+    double? gradientHeight,
+    Color? lineColor,
+    List<Color>? gradientColors,
   })  : curveHeight = curveHeight ?? 20,
         lineThickness = lineThickness ?? 8,
         gradientHeight = gradientHeight ?? 68,
@@ -44,7 +44,7 @@ class _CurvedLineCustomPainter extends CustomPainter {
   final Color lineColor;
   final List<Color> gradientColors;
 
-  Paint linePaint, glowAreaPaint;
+  late Paint linePaint, glowAreaPaint;
 
   _CurvedLineCustomPainter(
     this.curveHeight,
