@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyDivider extends StatelessWidget {
-  const MyDivider({Key key}) : super(key: key);
+  const MyDivider({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
