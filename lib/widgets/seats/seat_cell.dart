@@ -16,7 +16,11 @@ class GridSeatCell extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: onGridSeatClicked != null ? () { onGridSeatClicked!(model); } : null,
+      onTap: onGridSeatClicked != null
+          ? () {
+              onGridSeatClicked!(model);
+            }
+          : null,
       child: SeatCell(model.state),
     );
   }
@@ -93,7 +97,7 @@ class _AvailableSeatCellState extends AnimatedWidgetBaseState<AvailableSeatCell>
     _scaleTween = visitor(
       _scaleTween,
       widget.selected ? 1.0 : 0.0,
-          (dynamic value) => Tween<double>(begin: widget.selected ? 1.0 : 0.0),
+      (dynamic value) => Tween<double>(begin: widget.selected ? 1.0 : 0.0),
     ) as Tween<double>;
   }
 }
@@ -111,6 +115,7 @@ class SelectedImage extends StatelessWidget {
           padding: const EdgeInsets.all(2.8),
           child: Image.asset(
             'assets/images/ic_check.png',
+            package: 'ui_challenge_1',
           ),
         ),
       ),
